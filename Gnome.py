@@ -1,4 +1,6 @@
-# StickyBoard for Windows
+# StickyBoard for Gnome Linux
+# KDE似乎不需要这个，自带的剪切板除了不能拖动还挺好的
+import os
 import ctypes
 import tkinter as tk
 import tkinter.ttk
@@ -16,14 +18,6 @@ def windowShow():
     window = tk.Tk()
     window.geometry('800x600')
     window.title(windowTitle())
-
-    # 适配高DPI
-    try:  # >= win 8.1
-        ctypes.windll.shcore.SetProcessDpiAwareness(2)
-    except:  # win 8.0 or less
-        ctypes.windll.user32.SetProcessDPIAware()
-    ScaleFactor = ctypes.windll.shcore.GetScaleFactorForDevice(0)
-    window.tk.call('tk', 'scaling', ScaleFactor/75)
 
     # 打开text.txt，将其所有内容按行分开，然后存放在列表中
     with open('text.txt','r', encoding= "utf-8") as f:
@@ -59,12 +53,8 @@ def windowShow():
     #         for index in container.curselection():
     #             container.delete(index)
 
+    # 置顶窗口
     def topWinOrUndo():
-        # 窗口置顶与否，方案来自谷歌Bard
-        if window.wm_attributes("-topmost"):
-            window.wm_attributes("-topmost", False)
-        else:
-            window.wm_attributes("-topmost", True)
 
     def instandCopy(self):
         """Bard的建议。当没选中东西时不复制内容。可能有用？"""
