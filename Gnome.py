@@ -55,7 +55,7 @@ def windowShow():
 
     # 置顶窗口
     def topWinOrUndo():
-
+        pass
     def instandCopy(self):
         """Bard的建议。当没选中东西时不复制内容。可能有用？"""
         if not container.curselection():

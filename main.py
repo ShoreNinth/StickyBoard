@@ -1,13 +1,15 @@
 # StickyBoard for Windows
 import ctypes
 import tkinter as tk
+import tkinter.filedialog
 import tkinter.ttk
 import tkinter.messagebox
 import pandas.io.clipboard as cb
 
 def windowTitle():
+
     projectName = "信手 StickyBoard"
-    version = ' v 1.0'
+    version = ' v1.1 Canary'
     author = ' by ShoreNinth'
     return projectName + version + author
 
@@ -25,30 +27,40 @@ def windowShow():
     ScaleFactor = ctypes.windll.shcore.GetScaleFactorForDevice(0)
     window.tk.call('tk', 'scaling', ScaleFactor/75)
 
-    # 打开text.txt，将其所有内容按行分开，然后存放在列表中
-    with open('text.txt','r', encoding= "utf-8") as f:
-        element = f.readlines()
-    for i in element:
-        if i == "\n":
-            element.remove(i)
-    # element的类型是列表
-
     # 文本框，支持多选
     container = tk.Listbox(window,
                             selectmode = 'extended',
                             width=600,
                             height=100)
-    for item in element:
-        # 最开始所有元素是倒序排列的，因为原代码会把每一项排第一个位置：
-        # container.insert(0,item)
-        container.insert(tk.END,item)
+
+    element=""
+
+    def elementInsert():
+        for item in element:
+            # 最开始所有元素是倒序排列的，因为原代码会把每一项排第一个位置：
+            # container.insert(0,item)
+            container.insert(tk.END,item)
+        print('elementInsert执行成功')
 
     # 某人的Python大作业同款滚动条
-    container.VScroll1 = tk.Scrollbar(window, orient = 'vertical')
-    container.VScroll1.pack(side = "right", fill = "y")
-    container.config(yscrollcommand = container.VScroll1.set)
-    container.VScroll1.config(command = container.yview)
-    container.pack()
+        container.VScroll1 = tk.Scrollbar(window, orient = 'vertical')
+        container.VScroll1.pack(side = "right", fill = "y")
+        container.config(yscrollcommand = container.VScroll1.set)
+        container.VScroll1.config(command = container.yview)
+        container.pack()
+
+    def fileOperation():
+        # 选择文件
+        f_path = tkinter.filedialog.askopenfilename(title = "选择文件")
+        fileSelevted = f_path
+        with open(fileSelevted, 'r', encoding= "utf-8") as f:
+            element = f.readlines()
+        # 移除空行
+        for i in element:
+            if i == "\n":
+                element.remove(i)
+        # element的类型是列表
+        elementInsert()
 
     # 暂时弃用删除功能
     # def delete():
@@ -89,8 +101,8 @@ def windowShow():
         # cb.copy(content)
 
     menu = tk.Menu(window)
-    # menu.add_cascade(label='复制',
-    #                 command=lambda:copyToClipboard())
+    menu.add_cascade(label='打开文件',
+                     command=lambda:fileOperation())
     # menu.add_cascade(label='删除',
     #                 command=lambda:delete())
     menu.add_cascade(label='置顶窗口/取消置顶',
