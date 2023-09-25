@@ -29,12 +29,14 @@ StickyBoard（信手）是一个类便签小工具，可能有点用。
 
 # 自行编译
 
-可能需要额外下载的库有:pandas
+可能需要额外下载的库有:pandas，tkinter
 
 使用以下命令安装：
 
 ```
 pip install pandas
+pip install tkinter
+
 ```
 
 
