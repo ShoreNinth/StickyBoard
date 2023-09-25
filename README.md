@@ -36,7 +36,6 @@ StickyBoard（信手）是一个类便签小工具，可能有点用。
 ```
 pip install pandas
 pip install tkinter
-
 ```
 
 
