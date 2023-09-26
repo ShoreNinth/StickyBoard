@@ -8,10 +8,14 @@ import pandas.io.clipboard as cb
 
 def windowTitle():
 
-    global version 
     global author
+    global isBeta
+    global isCanary
+    global version 
     projectName = "信手 StickyBoard"
-    version = 'v1.1 Canary'
+    version = 'v1.2'
+    isBeta = False
+    isCanary = False
     author = 'ShoreNinth'
     return projectName
 
@@ -37,22 +41,14 @@ def windowShow():
                             width=600,
                             height=100)
 
-    element=""
-
-    def elementInsert():
-        """插入元素"""
-        for item in element:
-            # 最开始所有元素是倒序排列的，因为原代码会把每一项排第一个位置：
-            # container.insert(0,item)
-            container.insert(tk.END,item)
-        print('elementInsert执行成功')
-
     # 某人的Python大作业同款滚动条
     container.VScroll1 = tk.Scrollbar(window, orient = 'vertical')
     container.VScroll1.pack(side = "right", fill = "y")
     container.config(yscrollcommand = container.VScroll1.set)
     container.VScroll1.config(command = container.yview)
     container.pack()
+
+    element=""
 
     def fileOperation():
         # 选择文件
@@ -61,10 +57,14 @@ def windowShow():
         fileSelevted = f_path
         with open(fileSelevted, 'r', encoding= "utf-8") as f:
             element = f.readlines()
+
         # 移除空行
         element = [i.strip() for i in element if i.strip()]
-        # element的类型是列表
-        elementInsert()
+        # 插入列表
+        for item in element:
+            # 最开始所有元素是倒序排列的，因为原代码会把每一项排第一个位置：
+            # container.insert(0,item)
+            container.insert(tk.END,item)
 
     # 暂时弃用删除功能
     # def delete():
@@ -106,6 +106,23 @@ def windowShow():
         # content=container.get(container.curselection())
         # cb.copy(content)
 
+    def aboutPage():
+        """关于页面"""
+        appName = "StickyBoard for Windows\n"
+        appVersion = "版本："+version+" "
+        if isCanary == True:
+            appEdition = "金丝雀版"
+        elif isBeta == True:
+            appEdition = "测试版"
+        else:
+            appEdition = "稳定版"
+        appAuthor = "作者："+author
+        miscDetails =  "github.com/ShoreNinth\n"+"Made with Tkinter"
+
+        aboutString = appName + "\n" + appVersion +appEdition+"\n" + appAuthor + "\n" + miscDetails
+
+        return aboutString
+
     menu = tk.Menu(window)
     menu.add_cascade(label='打开文件',
                      command=lambda:fileOperation())
@@ -114,13 +131,7 @@ def windowShow():
     menu.add_cascade(label='置顶窗口/取消置顶',
                     command=lambda:topWinOrUndo())
     menu.add_cascade(label='关于',
-                    command=lambda:tk.messagebox.showinfo("关于",
-                                                          "StickyBoard for Windows\n"+
-                                                          "版本："+version+"\n"+
-                                                          "作者："+author+"\n"+
-                                                          "github.com/ShoreNinth\n"+
-                                                          "Made with Tkinter"))                                   
- 
+                    command=lambda:tk.messagebox.showinfo("关于",aboutPage()))
     window.config(menu=menu)
     window.mainloop()
 
