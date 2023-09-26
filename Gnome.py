@@ -1,9 +1,7 @@
 # StickyBoard for Gnome Linux
 # KDE似乎不需要这个，自带的剪切板除了不能拖动还挺好的
 import os
-import ctypes
 import tkinter as tk
-import tkinter.ttk
 import tkinter.messagebox
 import pandas.io.clipboard as cb
 
