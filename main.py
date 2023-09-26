@@ -92,17 +92,6 @@ def windowShow():
 
     container.bind("<ButtonRelease-1>",instandCopy)
 
-    # def copyToClipboard():
-    #     """方案来自New Bing"""
-    #     content = ""
-    #     for index in container.curselection():
-    #         content += container.get(index) + "\n"
-    #     cb.copy(content)
-
-        # 旧代码：在选择多行时会报错
-        # content=container.get(container.curselection())
-        # cb.copy(content)
-
     def aboutPage():
         """关于页面"""
         appName = "StickyBoard for Windows\n"
