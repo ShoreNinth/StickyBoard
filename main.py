@@ -8,13 +8,15 @@ import pandas.io.clipboard as cb
 
 def windowTitle():
 
+    global version 
+    global author
     projectName = "信手 StickyBoard"
-    version = ' v1.1 Canary'
-    author = ' by ShoreNinth'
-    return projectName + version + author
+    version = 'v1.1 Canary'
+    author = 'ShoreNinth'
+    return projectName
 
 def windowShow():
-
+    """主窗口显示"""
     window = tk.Tk()
     window.geometry('800x600')
     window.title(windowTitle())
@@ -27,6 +29,8 @@ def windowShow():
     ScaleFactor = ctypes.windll.shcore.GetScaleFactorForDevice(0)
     window.tk.call('tk', 'scaling', ScaleFactor/75)
 
+    global container
+    global element
     # 文本框，支持多选
     container = tk.Listbox(window,
                             selectmode = 'extended',
@@ -36,6 +40,7 @@ def windowShow():
     element=""
 
     def elementInsert():
+        """插入元素"""
         for item in element:
             # 最开始所有元素是倒序排列的，因为原代码会把每一项排第一个位置：
             # container.insert(0,item)
@@ -43,22 +48,21 @@ def windowShow():
         print('elementInsert执行成功')
 
     # 某人的Python大作业同款滚动条
-        container.VScroll1 = tk.Scrollbar(window, orient = 'vertical')
-        container.VScroll1.pack(side = "right", fill = "y")
-        container.config(yscrollcommand = container.VScroll1.set)
-        container.VScroll1.config(command = container.yview)
-        container.pack()
+    container.VScroll1 = tk.Scrollbar(window, orient = 'vertical')
+    container.VScroll1.pack(side = "right", fill = "y")
+    container.config(yscrollcommand = container.VScroll1.set)
+    container.VScroll1.config(command = container.yview)
+    container.pack()
 
     def fileOperation():
         # 选择文件
+
         f_path = tkinter.filedialog.askopenfilename(title = "选择文件")
         fileSelevted = f_path
         with open(fileSelevted, 'r', encoding= "utf-8") as f:
             element = f.readlines()
         # 移除空行
-        for i in element:
-            if i == "\n":
-                element.remove(i)
+        element = [i.strip() for i in element if i.strip()]
         # element的类型是列表
         elementInsert()
 
@@ -72,25 +76,27 @@ def windowShow():
     #             container.delete(index)
 
     def topWinOrUndo():
-        # 窗口置顶与否，方案来自谷歌Bard
+        """窗口置顶与否，方案来自谷歌Bard"""
         if window.wm_attributes("-topmost"):
             window.wm_attributes("-topmost", False)
         else:
             window.wm_attributes("-topmost", True)
 
     def instandCopy(self):
-        """Bard的建议。当没选中东西时不复制内容。可能有用？"""
+        """复制选中内容"""
+        # Bard的建议。当没选中东西时不复制内容。可能有用？
         if not container.curselection():
             return
         item=""
         for i in container.curselection():
             item += container.get(i) + "\n"
+        
         cb.copy(item)
 
     container.bind("<ButtonRelease-1>",instandCopy)
 
     # def copyToClipboard():
-    #     # 方案来自New Bing
+    #     """方案来自New Bing"""
     #     content = ""
     #     for index in container.curselection():
     #         content += container.get(index) + "\n"
@@ -108,7 +114,12 @@ def windowShow():
     menu.add_cascade(label='置顶窗口/取消置顶',
                     command=lambda:topWinOrUndo())
     menu.add_cascade(label='关于',
-                    command=lambda:tk.messagebox.showinfo("关于","作者：ShoreNinth\ngithub.com/ShoreNinth\nMade with Tkinter"))                                   
+                    command=lambda:tk.messagebox.showinfo("关于",
+                                                          "StickyBoard for Windows\n"+
+                                                          "版本："+version+"\n"+
+                                                          "作者："+author+"\n"+
+                                                          "github.com/ShoreNinth\n"+
+                                                          "Made with Tkinter"))                                   
  
     window.config(menu=menu)
     window.mainloop()
