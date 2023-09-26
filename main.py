@@ -50,9 +50,8 @@ def windowShow():
     def fileOperation():
         """文件操作"""
         # 选择文件
-        f_path = tkinter.filedialog.askopenfilename(title = "选择文件")
-        fileSelevted = f_path
-        with open(fileSelevted, 'r', encoding= "utf-8") as f:
+        fileSelected = tkinter.filedialog.askopenfilename(title = "选择文件")
+        with open(fileSelected, 'r', encoding= "utf-8") as f:
             element = f.readlines()
         # 移除空行
         element = [i.strip() for i in element if i.strip()]
