@@ -2,7 +2,7 @@
 import ctypes
 import tkinter as tk
 import tkinter.filedialog
-import tkinter.ttk
+# import tkinter.ttk            # ttk似乎用不到，先注释掉
 import tkinter.messagebox
 import pandas.io.clipboard as cb
 
@@ -41,7 +41,6 @@ def windowShow():
                             width=600,
                             height=100)
 
-    # 某人的Python大作业同款滚动条
     container.VScroll1 = tk.Scrollbar(window, orient = 'vertical')
     container.VScroll1.pack(side = "right", fill = "y")
     container.config(yscrollcommand = container.VScroll1.set)
@@ -51,13 +50,12 @@ def windowShow():
     element=""
 
     def fileOperation():
+        """文件操作"""
         # 选择文件
-
         f_path = tkinter.filedialog.askopenfilename(title = "选择文件")
         fileSelevted = f_path
         with open(fileSelevted, 'r', encoding= "utf-8") as f:
             element = f.readlines()
-
         # 移除空行
         element = [i.strip() for i in element if i.strip()]
         # 插入列表
@@ -128,7 +126,7 @@ def windowShow():
                      command=lambda:fileOperation())
     # menu.add_cascade(label='删除',
     #                 command=lambda:delete())
-    menu.add_cascade(label='置顶窗口/取消置顶',
+    menu.add_cascade(label='置顶/取消置顶',
                     command=lambda:topWinOrUndo())
     menu.add_cascade(label='关于',
                     command=lambda:tk.messagebox.showinfo("关于",aboutPage()))
