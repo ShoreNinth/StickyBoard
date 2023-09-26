@@ -1,46 +1,57 @@
 # StickyBoard for Gnome Linux
-# KDE似乎不需要这个，自带的剪切板除了不能拖动还挺好的
 import os
 import tkinter as tk
 import tkinter.messagebox
 import pandas.io.clipboard as cb
 
 def windowTitle():
+
+    global author
+    global isBeta
+    global isCanary
+    global version 
     projectName = "信手 StickyBoard"
-    version = ' v 1.0'
-    author = ' by ShoreNinth'
-    return projectName + version + author
+    version = 'v1.2'
+    isBeta = False
+    isCanary = False
+    author = 'ShoreNinth'
+    return projectName
 
 def windowShow():
-
+    """主窗口显示"""
     window = tk.Tk()
     window.geometry('800x600')
     window.title(windowTitle())
 
-    # 打开text.txt，将其所有内容按行分开，然后存放在列表中
-    with open('text.txt','r', encoding= "utf-8") as f:
-        element = f.readlines()
-    for i in element:
-        if i == "\n":
-            element.remove(i)
-    # element的类型是列表
-
+    global container
+    global element
     # 文本框，支持多选
     container = tk.Listbox(window,
                             selectmode = 'extended',
                             width=600,
                             height=100)
-    for item in element:
-        # 最开始所有元素是倒序排列的，因为原代码会把每一项排第一个位置：
-        # container.insert(0,item)
-        container.insert(tk.END,item)
 
-    # 某人的Python大作业同款滚动条
     container.VScroll1 = tk.Scrollbar(window, orient = 'vertical')
     container.VScroll1.pack(side = "right", fill = "y")
     container.config(yscrollcommand = container.VScroll1.set)
     container.VScroll1.config(command = container.yview)
     container.pack()
+
+    element=""
+
+    def fileOperation():
+        """文件操作"""
+        # 选择文件
+        fileSelected = tkinter.filedialog.askopenfilename(title = "选择文件")
+        with open(fileSelected, 'r', encoding= "utf-8") as f:
+            element = f.readlines()
+        # 移除空行
+        element = [i.strip() for i in element if i.strip()]
+        # 插入列表
+        for item in element:
+            # 最开始所有元素是倒序排列的，因为原代码会把每一项排第一个位置：
+            # container.insert(0,item)
+            container.insert(tk.END,item)
 
     # 暂时弃用删除功能
     # def delete():
@@ -51,41 +62,53 @@ def windowShow():
     #         for index in container.curselection():
     #             container.delete(index)
 
-    # 置顶窗口
     def topWinOrUndo():
-        pass
+        """窗口置顶与否，方案来自谷歌Bard"""
+        if window.wm_attributes("-topmost"):
+            window.wm_attributes("-topmost", False)
+        else:
+            window.wm_attributes("-topmost", True)
+
     def instandCopy(self):
-        """Bard的建议。当没选中东西时不复制内容。可能有用？"""
+        """复制选中内容"""
+        # Bard的建议。当没选中东西时不复制内容。可能有用？
         if not container.curselection():
             return
         item=""
         for i in container.curselection():
             item += container.get(i) + "\n"
-        cb.copy(item)
+        window.clipboard_clear()
+        window.clipboard_append(item)
+        window.update()
 
     container.bind("<ButtonRelease-1>",instandCopy)
 
-    # def copyToClipboard():
-    #     # 方案来自New Bing
-    #     content = ""
-    #     for index in container.curselection():
-    #         content += container.get(index) + "\n"
-    #     cb.copy(content)
+    def aboutPage():
+        """关于页面"""
+        appName = "StickyBoard for Gnome Linux\n"
+        appVersion = "版本："+version+" "
+        if isCanary == True:
+            appEdition = "金丝雀版"
+        elif isBeta == True:
+            appEdition = "测试版"
+        else:
+            appEdition = "稳定版"
+        appAuthor = "作者："+author
+        miscDetails =  "github.com/ShoreNinth\n"+"Made with Tkinter"
 
-        # 旧代码：在选择多行时会报错
-        # content=container.get(container.curselection())
-        # cb.copy(content)
+        aboutString = appName + "\n" + appVersion +appEdition+"\n" + appAuthor + "\n" + miscDetails
+
+        return aboutString
 
     menu = tk.Menu(window)
-    # menu.add_cascade(label='复制',
-    #                 command=lambda:copyToClipboard())
+    menu.add_cascade(label='打开文件',
+                     command=lambda:fileOperation())
     # menu.add_cascade(label='删除',
     #                 command=lambda:delete())
-    menu.add_cascade(label='置顶窗口/取消置顶',
+    menu.add_cascade(label='置顶/取消置顶',
                     command=lambda:topWinOrUndo())
     menu.add_cascade(label='关于',
-                    command=lambda:tk.messagebox.showinfo("关于","作者：ShoreNinth\ngithub.com/ShoreNinth\nMade with Tkinter"))                                   
- 
+                    command=lambda:tk.messagebox.showinfo("关于",aboutPage()))
     window.config(menu=menu)
     window.mainloop()
 
