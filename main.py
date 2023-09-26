@@ -2,9 +2,7 @@
 import ctypes
 import tkinter as tk
 import tkinter.filedialog
-# import tkinter.ttk            # ttk似乎用不到，先注释掉
 import tkinter.messagebox
-import pandas.io.clipboard as cb
 
 def windowTitle():
 
@@ -88,8 +86,9 @@ def windowShow():
         item=""
         for i in container.curselection():
             item += container.get(i) + "\n"
-        
-        cb.copy(item)
+        window.clipboard_clear()
+        window.clipboard_append(item)
+        window.update()
 
     container.bind("<ButtonRelease-1>",instandCopy)
 
