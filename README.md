@@ -45,14 +45,27 @@ KDE plasma的桌面自带剪切板。除了不能拖动外，其他功能可以�
 
 # 自行编译
 
-可能需要额外下载的库有:pandas，tkinter
+### 编译StickyBoard for Windows
 
-使用以下命令安装：
 
 ```
-pip install pandas
-pip install tkinter
+git clone https://github.com/ShoreNinth/StickyBoard.git
+
+cd StickyBoard
+
+python main.py
 ```
+
+### 编译StickyBoard for Linux
+
+可能需要额外下载的库有:tkinter。请使用以下命令安装：
+
+```
+sudo pip install tkinter
+```
+
+（待补充）
+
 
 # 感谢
 Microsoft New Bing ~~必应大小姐~~
