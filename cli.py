@@ -1,6 +1,7 @@
 # StickyBoard Inporter Edition Cli
 # 面向KDE的命令行版本
 # 将文本文件导入剪切板
+
 def messageShow():
     print("这是个饼，敬请期待")
 
@@ -43,7 +44,6 @@ def fileOperation():
         element = f.readlines()
     # 移除空行
     element = [i.strip() for i in element if i.strip()]
-    # 插入列表
 
 
 def aboutPage():
@@ -67,3 +67,4 @@ def aboutPage():
 if __name__ == "__main__":
     infoShow()
     messageShow()
+    
