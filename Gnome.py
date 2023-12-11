@@ -5,107 +5,62 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
-import _tkinter as tk
-import tkinter.filedialog
-import tkinter.messagebox
-
-def windowTitle():
-
+class metaData():
+    global appName
     global author
     global isBeta
     global isCanary
     global version
-    projectName = "信手 StickyBoard"
+
+    appName = "StickyBoard"
+    # appIcon = "icon.ico"
     version = 'v1.2'
     isBeta = False
     isCanary = False
-    author = 'ShoreNinth'
-    return projectName
+    author = "ShoreNinth"
+    website = "https://github.com/ShoreNinth/StickyBoard"
+    websiteLabel = "访问官网"
 
-def windowShow():
-    """主窗口显示"""
-    window = tk.Tk()
-    window.geometry('800x600')
-    window.title(windowTitle())
+    appVersion = "版本：" + version
+    if isCanary == True:
+        appEdition = "金丝雀版"
+    elif isBeta == True:
+        appEdition = "测试版"
+    else:
+        appEdition = "稳定版"
 
-    global container
-    global element
-    # 文本框，支持多选
-    container = tk.Listbox(window,
-                            selectmode = 'extended',
-                            width=600,
-                            height=100)
+    aboutString = appVersion + appEdition + "\nMade with GTK"
 
-    container.VScroll1 = tk.Scrollbar(window, orient = 'vertical')
-    container.VScroll1.pack(side = "right", fill = "y")
-    container.config(yscrollcommand = container.VScroll1.set)
-    container.VScroll1.config(command = container.yview)
-    container.pack()
+class mainWindow(Gtk.Window):
 
-    element=""
+    def __init__(self):
+        super().__init__(title=appName)
+        self.set_default_size(800, 600)
 
-    def fileOperation():
-        """文件操作"""
-        # 选择文件
-        fileSelected = tkinter.filedialog.askopenfilename(title = "选择文件")
-        with open(fileSelected, 'r', encoding= "utf-8") as f:
-            element = f.readlines()
-        # 移除空行
-        element = [i.strip() for i in element if i.strip()]
-        # 插入列表
-        for item in element:
-            # 最开始所有元素是倒序排列的，因为原代码会把每一项排第一个位置：
-            # container.insert(0,item)
-            container.insert(tk.END,item)
+        box = Gtk.Box(spacing=6)
+        self.add(box)
 
-    def topWinOrUndo():
-        """窗口置顶与否，方案来自谷歌Bard"""
-        if window.wm_attributes("-topmost"):
-            window.wm_attributes("-topmost", False)
-        else:
-            window.wm_attributes("-topmost", True)
 
-    def instandCopy(self):
-        """复制选中内容"""
-        # Bard的建议。当没选中东西时不复制内容。可能有用？
-        if not container.curselection():
-            return
-        item=""
-        for i in container.curselection():
-            item += container.get(i) + "\n"
-        window.clipboard_clear()
-        window.clipboard_append(item)
-        window.update()
+        aboutButton = Gtk.Button(label="关于")
+        aboutButton.connect("clicked", self.about_page)
+        box.add(aboutButton)
 
-    container.bind("<ButtonRelease-1>",instandCopy)
+        # menuButton = Gtk
 
-    def aboutPage():
-        """关于页面"""
-        appName = "StickyBoard for Windows\n"
-        appVersion = "版本："+version+" "
-        if isCanary == True:
-            appEdition = "金丝雀版"
-        elif isBeta == True:
-            appEdition = "测试版"
-        else:
-            appEdition = "稳定版"
-        appAuthor = "作者："+author
-        miscDetails =  "github.com/ShoreNinth\n"+"Made with Tkinter"
+    def about_page(self, widget):
 
-        aboutString = appName + "\n" + appVersion +appEdition+"\n" + appAuthor + "\n" + miscDetails
+        about_dialog = Gtk.AboutDialog()
+        about_dialog.set_program_name(appName)
+        # about_dialog.set_logo_icon_name(metaData.appIcon)
+        about_dialog.set_version(metaData.aboutString)
+        about_dialog.set_authors([author])
+        about_dialog.set_website(metaData.website)
+        about_dialog.set_website_label(metaData.websiteLabel)
+        about_dialog.run()
+        about_dialog.destroy()
 
-        return aboutString
 
-    menu = tk.Menu(window)
-    menu.add_cascade(label='打开文件',
-                     command=lambda:fileOperation())
-    menu.add_cascade(label='置顶/取消置顶',
-                    command=lambda:topWinOrUndo())
-    menu.add_cascade(label='关于',
-                    command=lambda:tk.messagebox.showinfo("关于",aboutPage()))
-    window.config(menu=menu)
-    window.mainloop()
-
-if __name__ == "__main__":
-    windowTitle()
-    windowShow()
+window = mainWindow()
+window.connect("destroy", Gtk.main_quit)
+window.show_all()
+Gtk.main()

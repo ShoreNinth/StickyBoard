@@ -6,6 +6,6 @@ venv
 build
 dist
 
-GTKtest.py
+ReferenceByChatGPT.py
 main.spec
 test.txt
