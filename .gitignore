@@ -1,0 +1,11 @@
+
+test
+venv
+
+.idea
+build
+dist
+
+GTKtest.py
+main.spec
+test.txt
