@@ -1,15 +1,20 @@
-# StickyBoard for Gnome Linux
-import os
-import tkinter as tk
+# StickyBoard for Linux Gnome DE
+
+import gi
+
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
+
+import _tkinter as tk
+import tkinter.filedialog
 import tkinter.messagebox
-import pandas.io.clipboard as cb
 
 def windowTitle():
 
     global author
     global isBeta
     global isCanary
-    global version 
+    global version
     projectName = "信手 StickyBoard"
     version = 'v1.2'
     isBeta = False
@@ -53,15 +58,6 @@ def windowShow():
             # container.insert(0,item)
             container.insert(tk.END,item)
 
-    # 暂时弃用删除功能
-    # def delete():
-    #     # 删除选中项，方案来自谷歌Bard
-    #     if not container.curselection():
-    #         tk.messagebox.showinfo("提示", "请选择要删除的文本")
-    #     else:
-    #         for index in container.curselection():
-    #             container.delete(index)
-
     def topWinOrUndo():
         """窗口置顶与否，方案来自谷歌Bard"""
         if window.wm_attributes("-topmost"):
@@ -85,7 +81,7 @@ def windowShow():
 
     def aboutPage():
         """关于页面"""
-        appName = "StickyBoard for Gnome Linux\n"
+        appName = "StickyBoard for Windows\n"
         appVersion = "版本："+version+" "
         if isCanary == True:
             appEdition = "金丝雀版"
@@ -103,8 +99,6 @@ def windowShow():
     menu = tk.Menu(window)
     menu.add_cascade(label='打开文件',
                      command=lambda:fileOperation())
-    # menu.add_cascade(label='删除',
-    #                 command=lambda:delete())
     menu.add_cascade(label='置顶/取消置顶',
                     command=lambda:topWinOrUndo())
     menu.add_cascade(label='关于',
