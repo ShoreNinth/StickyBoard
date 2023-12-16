@@ -1,4 +1,5 @@
 # StickyBoard
+
 StickyBoard（信手）是一个类便签小工具，可能有点用。
 
 > "厌倦了手指在C键和V键来回移动的繁琐？你需要StickyBoard！"
@@ -7,6 +8,7 @@ StickyBoard（信手）是一个类便签小工具，可能有点用。
 > ~~差距？差距就是抽纸与卷纸的差距！~~
 
 # 灵感
+
 我需要一个理想应用：既能像便利贴那样置顶，又能像剪切板那样单击即复制。 于是，StickyBoard诞生。
 
 其英文名用StickyNote(便利贴)和Clipboard(剪切板)拼接而成，中文名“信手”取自成语“信手拈来”。
@@ -33,7 +35,7 @@ StickyBoard（信手）是一个类便签小工具，可能有点用。
 
 使用GTK构建，让你有更舒适的Gnome桌面应用使用体验。
 
-### StickyBoard for KDE plasma 
+### StickyBoard for KDE plasma
 
 🚧🚧🚧施工中🚧🚧🚧
 
@@ -56,19 +58,25 @@ StickyBoard（信手）是一个类便签小工具，可能有点用。
 ### 编译StickyBoard for Windows
 
 下载pyinstaller库
+
 ```
 pip install pyinstaller
 ```
+
 克隆仓库
 
 ```
 git clone https://github.com/ShoreNinth/StickyBoard.git
 ```
+
 切换目录
+
 ```
 cd StickyBoard
 ```
+
 执行
+
 ```
 python main.py
 ```
@@ -84,8 +92,8 @@ sudo pip install pyinstaller
 
 （待补充）
 
-
 # 感谢
+
 Microsoft New Bing ~~必应大小姐~~
 
 Google Bard
