@@ -1,4 +1,4 @@
-# StickyBoard
+# ![图标](icon.ico "临时图标")StickyBoard
 
 StickyBoard（信手）是一个类便签小工具，可能有点用。
 
@@ -86,7 +86,9 @@ python setup.py
 ```
 sudo pip install -r requirements.txt
 ```
+### 关于此图标
 
+此软件的图标是从网上随便找的，在正式确定图标前以此图标为主。
 
 # 感谢
 
