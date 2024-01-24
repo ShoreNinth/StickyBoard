@@ -9,12 +9,15 @@ def windowTitle():
     global author
     global isBeta
     global isCanary
-    global version 
+    global version
+    global filetype_error_dialog
+    
     projectName = "信手 StickyBoard"
     version = 'v1.2'
     isBeta = False
     isCanary = False
     author = 'ShoreNinth'
+    filetype_error_dialog = '错误: 不受支持的文件格式'
     return projectName
 
 def windowShow():
@@ -49,17 +52,23 @@ def windowShow():
 
     def fileOperation():
         """文件操作"""
+
         # 选择文件
-        fileSelected = tkinter.filedialog.askopenfilename(title = "选择文件")
-        with open(fileSelected, 'r', encoding= "utf-8") as f:
-            element = f.readlines()
-        # 移除空行
-        element = [i.strip() for i in element if i.strip()]
-        # 插入列表
-        for item in element:
-            # 最开始所有元素是倒序排列的，因为原代码会把每一项排第一个位置：
-            # container.insert(0,item)
-            container.insert(tk.END,item)
+        try:
+            fileSelected = tkinter.filedialog.askopenfilename(title = "选择文件")
+            with open(fileSelected, 'r', encoding= "utf-8") as f:
+                element = f.readlines()
+            # 移除空行
+            element = [i.strip() for i in element if i.strip()]
+            # 插入列表
+            for item in element:
+                # 最开始所有元素是倒序排列的，因为原代码会把每一项排第一个位置：
+                # container.insert(0,item)
+                container.insert(tk.END,item)
+
+        # 如果目标文件不可读取，则弹窗报错
+        except UnicodeDecodeError:
+            tk.messagebox.showinfo("提示",filetype_error_dialog)
 
     # 暂时弃用删除功能
     # def delete():
