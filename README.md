@@ -31,17 +31,15 @@ StickyBoard（信手）是一个类便签小工具，可能有点用。
 
 ### StickyBoard for Gnome
 
-🚧🚧🚧施工中🚧🚧🚧
+🚧🚧🚧施工中🚧🚧🚧UNDER CONSTRUCTION🚧🚧🚧
 
 使用GTK构建，让你有更舒适的Gnome桌面应用使用体验。
 
 ### StickyBoard for KDE plasma
 
-🚧🚧🚧施工中🚧🚧🚧
+🚧🚧🚧施工中🚧🚧🚧UNDER CONSTRUCTION🚧🚧🚧
 
-众所周知KDE plasma的桌面自带剪切板。除了不能拖动外，其他功能可以与StickyBoard相辅相成。为此我准备了一个命令行版本。
-
-它可以读取目标文本文件，并逐行复制，与KDE剪切板联动。
+众所周知KDE plasma的桌面自带剪切板。除了不能拖动外，其他功能可以与StickyBoard相辅相成。为此我准备了一个命令行版本。它可以读取目标文本文件，并逐行复制，与KDE剪切板联动。
 
 # 版本解释
 
@@ -78,7 +76,7 @@ cd StickyBoard
 执行
 
 ```
-python main.py
+python setup.py
 ```
 
 ### 编译StickyBoard for Linux
@@ -86,11 +84,9 @@ python main.py
 可能需要额外下载的库有:gi,pyinstaller。请使用以下命令安装：
 
 ```
-sudo pip install gi
-sudo pip install pyinstaller
+sudo pip install -r requirements.txt
 ```
 
-（待补充）
 
 # 感谢
 
