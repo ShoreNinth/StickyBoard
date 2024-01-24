@@ -1,0 +1,3 @@
+# For Linux
+pyinstaller
+gi
