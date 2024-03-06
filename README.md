@@ -19,6 +19,10 @@ StickyBoard（信手）是一个类便签小工具，可能有点用。
 
 # 功能
 
+## StickyBoard Qt
+
+🧑‍💻正在使用Qt5写Gui,敬请期待！
+
 ## StickyBoard for Windows
 
 选择任意文本文件（支持代码文件，编码为UTF-8），此应用会按行分割文本。
