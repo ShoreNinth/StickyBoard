@@ -91,7 +91,7 @@ class Ui_MainWindow(object):
 
         # 选择文件
         try:
-            fileSelected = tkinter.filedialog.askopenfilename(title = "选择文件")
+            fileSelected = QtWidgets.QFileDialog.askopenfilename(title = "选择文件")
             with open(fileSelected, 'r', encoding= "utf-8") as f:
                 element = f.readlines()
             # 移除空行
