@@ -8,4 +8,5 @@ dist
 
 ReferenceByChatGPT.py
 main.spec
+qt.spec
 test.txt
