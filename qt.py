@@ -22,14 +22,14 @@ import sys
 #     return projectName
 
 class MyListWidget(QtWidgets.QListWidget):
-    def clicked(self, item):
-        QtWidgets.QMessageBox.information(self, "ListWidget", "You clicked: " + item.text())
+    def clicked(self,item):
+        Clipboard.instandCopy(item.text())
 
 class Clipboard():
     def instandCopy(self):
         """复制选中内容"""
-        clipboard = QtWidgets.QApplication.clipboard()
-        clipboard.setText(self)
+        cb = QtWidgets.QApplication.clipboard()
+        cb.setText(self)
 
 class MessageBox():
     def filetypeError(self):
@@ -100,7 +100,6 @@ class Ui_MainWindow(object):
         self.action_2 = QtWidgets.QAction(MainWindow)
         self.action_2.setObjectName("action_2")
         self.action_2.triggered.connect(MessageBox.aboutMessageBox)
-        # self.action_2.triggered.connect(print(Ui_MainWindow.aboutPage()))
 
         self.menu.addAction(self.action)
         self.menu_2.addAction(self.action_2)
@@ -124,10 +123,6 @@ class Ui_MainWindow(object):
         self.action.setText(_translate("MainWindow", "文件"))
         self.action_2.setText(_translate("MainWindow", "关于"))
 
-
-    def menuButtonTrigger(self):
-        print('成功按下'+self)
-
     def aboutPage():
         """关于页面"""
         appName = "StickyBoard Qt\n"
@@ -148,8 +143,6 @@ class Ui_MainWindow(object):
     def fileOperation():
         """文件操作"""
 
-        element=""
-        
         fileSelected = QtWidgets.QFileDialog.getOpenFileName()
         fileSelected = fileSelected[0]
 
@@ -158,6 +151,7 @@ class Ui_MainWindow(object):
         if fileSelected == '':
             pass
         else:
+            element=""
             try:
                 with open(fileSelected, 'r', encoding= "utf-8") as f:
                     element = f.readlines()
