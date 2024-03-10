@@ -84,27 +84,25 @@ class Ui_MainWindow(object):
         self.action.setText(_translate("MainWindow", "文件"))
         self.action_2.setText(_translate("MainWindow", "关于"))
 
-    element=""
 
     def fileOperation():
         """文件操作"""
-
+        element=""
         # 选择文件
         try:
-            fileSelected = QtWidgets.QFileDialog.askopenfilename(title = "选择文件")
+            # fileSelected = QtWidgets.QFileDialog.askopenfilename(title = "选择文件")
+            fileSelected = 'text.txt'
             with open(fileSelected, 'r', encoding= "utf-8") as f:
                 element = f.readlines()
             # 移除空行
             element = [i.strip() for i in element if i.strip()]
             # 插入列表
             for item in element:
-                # 最开始所有元素是倒序排列的，因为原代码会把每一项排第一个位置：
-                # container.insert(0,item)
-                container.insert(tk.END,item)
+                ui.listWidget.addItem(item)
 
         # 如果目标文件不可读取，则弹窗报错
         except UnicodeDecodeError:
-            tk.messagebox.showinfo("提示",filetype_error_dialog)
+            QtWidgets.QMessageBox.information(title='提示',text=filetype_error_dialog)
     # def statusSituation(self):
 
 if __name__ == "__main__":
@@ -113,9 +111,8 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
 
-    # Add items to the list widget
-    for i in range(25):
-        ui.listWidget.addItem("Item {}".format(i))
+    # 此方法在选择文件时调用
+    Ui_MainWindow.fileOperation()
 
     MainWindow.show()
     sys.exit(app.exec_())
