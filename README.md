@@ -1,11 +1,15 @@
 # ![图标](icon.ico "临时图标")StickyBoard
 
-StickyBoard（信手）是一个类便签小工具，可能有点用。
+StickyBoard（信手）是一个文本复制工具。
+
+⚠️警告：StickyBoard 仍在开发中，我不能保证它的安全性！
+
+⚠️WIP Project! No warranty!
 
 > "厌倦了手指在C键和V键来回移动的繁琐？你需要StickyBoard！"
 > ——ShoreNinth
 
-> ~~差距？差距就是抽纸与卷纸的差距！~~
+> ~~与直接操作TXT文件的差距？那就是抽纸与卷纸的差距！———ShoreNinth~~
 
 # 灵感
 
@@ -13,17 +17,24 @@ StickyBoard（信手）是一个类便签小工具，可能有点用。
 
 其英文名用StickyNote(便利贴)和Clipboard(剪切板)拼接而成，中文名“信手”取自成语“信手拈来”。
 
-我会尽力维护这个软件，有问题欢迎提issue。
-
 不管怎样，希望这个小工具有些用。至少...嗯，能减少你按Ctrl+C的次数。
 
-# 功能
+# 计划面板
 
-## StickyBoard Qt
+### 开发进度图例
 
-🧑‍💻正在使用Qt5写Gui,敬请期待！
+|图标|解释|
+|-|-|
+|🚧|未开始|
+|💤|闲置|
+|🧑‍💻|正在进行|
+|🎉|已完成|
 
-## StickyBoard for Windows
+## 🧑‍💻StickyBoard Qt
+
+使用PyQt5编写的前端。敬请期待！
+
+## 🎉StickyBoard for Windows
 
 选择任意文本文件（支持代码文件，编码为UTF-8），此应用会按行分割文本。
 
@@ -31,17 +42,13 @@ StickyBoard（信手）是一个类便签小工具，可能有点用。
 
 应用窗口可置顶。
 
-## StickyBoard for Linux(敬请期待)
+## 💤StickyBoard for Linux
 
-### StickyBoard for Gnome
-
-🚧🚧🚧施工中🚧🚧🚧UNDER CONSTRUCTION🚧🚧🚧
+## 💤StickyBoard for Gnome
 
 使用GTK构建，让你有更舒适的Gnome桌面应用使用体验。
 
-### StickyBoard for KDE plasma
-
-🚧🚧🚧施工中🚧🚧🚧UNDER CONSTRUCTION🚧🚧🚧
+## 💤StickyBoard CLI for KDE plasma
 
 众所周知KDE plasma的桌面自带剪切板。除了不能拖动外，其他功能可以与StickyBoard相辅相成。为此我准备了一个命令行版本。它可以读取目标文本文件，并逐行复制，与KDE剪切板联动。
 
