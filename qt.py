@@ -5,21 +5,31 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 
-# def windowTitle():
+class metaInfo():
 
-#     global author
-#     global isBeta
-#     global isCanary
-#     global version
-#     global filetype_error_dialog
-    
-#     projectName = "信手 StickyBoard"
-#     version = 'v1.2'
-#     isBeta = False
-#     isCanary = False
-#     author = 'ShoreNinth'
-#     filetype_error_dialog = '错误: 不受支持的文件格式'
-#     return projectName
+    projectName = "信手 StickyBoard"
+    version = 'v1.2'
+    isBeta = True
+    isCanary = False
+    author = 'ShoreNinth'
+    filetype_error_dialog = '错误: 不受支持的文件格式'
+
+    appName = "StickyBoard Qt"
+    appVersion = "版本："+version+" "
+    appAuthor = "作者："+author
+    miscDetails =  "github.com/ShoreNinth\n"+"Made with PyQt5"
+    appTitle = appName
+
+    if isCanary == True:
+        appEdition = "金丝雀版"
+        appTitle += " Canary"
+    elif isBeta == True:
+        appEdition = "测试版"
+        appTitle += " Beta"
+    else:
+        appEdition = "稳定版"
+
+    aboutString = appName + "\n" + appVersion + appEdition+"\n" + appAuthor + "\n" + miscDetails
 
 class MyListWidget(QtWidgets.QListWidget):
     def clicked(self,item):
@@ -33,19 +43,12 @@ class Clipboard():
 
 class MessageBox():
     def filetypeError(self):
-        QtWidgets.QMessageBox.information(self,'提示',Ui_MainWindow.filetype_error_dialog)
+        QtWidgets.QMessageBox.information(self,'提示',metaInfo.filetype_error_dialog)
 
-    def aboutMessageBox(self):
-        QtWidgets.QMessageBox.information(self,'关于',Ui_MainWindow.aboutPage())
+    def aboutMessageBox():
+        QtWidgets.QMessageBox.information(None,'关于',str(metaInfo.aboutString))
 
 class Ui_MainWindow(object):
-
-    projectName = "信手 StickyBoard"
-    version = 'v1.2'
-    isBeta = True
-    isCanary = False
-    author = 'ShoreNinth'
-    filetype_error_dialog = '错误: 不受支持的文件格式'
 
     statusbar = '就绪'
 
@@ -116,28 +119,12 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "StickyBoard"))
+        MainWindow.setWindowTitle(_translate("MainWindow", metaInfo.appTitle))
 
         self.menu.setTitle(_translate("MainWindow", "打开"))
         self.menu_2.setTitle(_translate("MainWindow", "帮助"))
         self.action.setText(_translate("MainWindow", "文件"))
         self.action_2.setText(_translate("MainWindow", "关于"))
-
-    def aboutPage():
-        """关于页面"""
-        appName = "StickyBoard Qt\n"
-        appVersion = "版本："+Ui_MainWindow.version+" "
-        if Ui_MainWindow.isCanary == True:
-            appEdition = "金丝雀版"
-        elif Ui_MainWindow.isBeta == True:
-            appEdition = "测试版"
-        else:
-            appEdition = "稳定版"
-        appAuthor = "作者："+Ui_MainWindow.author
-        miscDetails =  "github.com/ShoreNinth\n"+"Made with PyQt5"
-
-        aboutString = appName + "\n" + appVersion +appEdition+"\n" + appAuthor + "\n" + miscDetails
-        return aboutString
 
 
     def fileOperation():
@@ -165,6 +152,7 @@ class Ui_MainWindow(object):
         # 如果目标文件不可读取，则弹窗报错
             except UnicodeDecodeError:
                MessageBox.filetypeError(None)
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
