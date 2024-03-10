@@ -5,27 +5,42 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 
-def windowTitle():
+# def windowTitle():
 
-    global author
-    global isBeta
-    global isCanary
-    global version
-    global filetype_error_dialog
+#     global author
+#     global isBeta
+#     global isCanary
+#     global version
+#     global filetype_error_dialog
     
+#     projectName = "信手 StickyBoard"
+#     version = 'v1.2'
+#     isBeta = False
+#     isCanary = False
+#     author = 'ShoreNinth'
+#     filetype_error_dialog = '错误: 不受支持的文件格式'
+#     return projectName
+
+class MyListWidget(QtWidgets.QListWidget):
+    def clicked(self, item):
+        QtWidgets.QMessageBox.information(self, "ListWidget", "You clicked: " + item.text())
+
+class MessageBox():
+    def filetypeError(self):
+        QtWidgets.QMessageBox.information(self,'提示',Ui_MainWindow.filetype_error_dialog)
+
+
+class Ui_MainWindow(object):
+
     projectName = "信手 StickyBoard"
     version = 'v1.2'
     isBeta = False
     isCanary = False
     author = 'ShoreNinth'
     filetype_error_dialog = '错误: 不受支持的文件格式'
-    return projectName
 
-class MyListWidget(QtWidgets.QListWidget):
-    def clicked(self, item):
-        QtWidgets.QMessageBox.information(self, "ListWidget", "You clicked: " + item.text())
+    statusbar = '就绪'
 
-class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
@@ -59,7 +74,8 @@ class Ui_MainWindow(object):
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
-        self.statusbar.showMessage("就绪")
+        self.statusbar.showMessage(Ui_MainWindow.statusbar)
+
         MainWindow.setStatusBar(self.statusbar)
         self.action = QtWidgets.QAction(MainWindow)
         self.action.setObjectName("action")
@@ -87,29 +103,39 @@ class Ui_MainWindow(object):
 
     def fileOperation():
         """文件操作"""
-        element=""
-        # 选择文件
-        try:
-            # fileSelected = QtWidgets.QFileDialog.askopenfilename(title = "选择文件")
-            fileSelected = 'text.txt'
-            with open(fileSelected, 'r', encoding= "utf-8") as f:
-                element = f.readlines()
-            # 移除空行
-            element = [i.strip() for i in element if i.strip()]
-            # 插入列表
-            for item in element:
-                ui.listWidget.addItem(item)
 
+        element=""
+        
+        fileSelected = QtWidgets.QFileDialog.getOpenFileName()
+        fileSelected = fileSelected[0]
+
+        Ui_MainWindow.statusbar = '正在打开' + fileSelected
+
+        if fileSelected == '':
+            pass
+        else:
+            try:
+                with open(fileSelected, 'r', encoding= "utf-8") as f:
+                    element = f.readlines()
+                element = [i.strip() for i in element if i.strip()]
+                # 插入列表
+                ui.listWidget.clear
+                for item in element:
+                    ui.listWidget.addItem(item)
+
+                Ui_MainWindow.statusbar = '成功打开' + fileSelected
         # 如果目标文件不可读取，则弹窗报错
-        except UnicodeDecodeError:
-            QtWidgets.QMessageBox.information(title='提示',text=filetype_error_dialog)
+            except UnicodeDecodeError:
+               MessageBox.filetypeError(None)
     # def statusSituation(self):
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
+
 
     # 此方法在选择文件时调用
     Ui_MainWindow.fileOperation()
