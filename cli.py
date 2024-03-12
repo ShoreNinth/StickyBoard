@@ -1,6 +1,7 @@
 # StickyBoard Digestor Edition
 # 面向KDE的命令行版本
 # 将文本文件导入剪切板
+import pyperclip
 import sys
 
 def Arg():
@@ -64,9 +65,7 @@ def fileOperation(file):
     # 移除空行
     element = [i.strip() for i in element if i.strip()]
     for i in element:
-
-        pass
-        # print(i)
+        pyperclip.copy(i)
 
 def aboutPage():
     """关于页面"""
@@ -79,9 +78,9 @@ def aboutPage():
     else:
         appEdition = "稳定版"
     appAuthor = "作者："+author
-    miscDetails =  "github.com/ShoreNinth\n"
+    website =  "https://github.com/ShoreNinth\n"
 
-    aboutString = appName + "\n" + appVersion +appEdition+"\n" + appAuthor + "\n" + miscDetails
+    aboutString = appName + "\n" + appVersion +appEdition+"\n" + appAuthor + "\n" + website
 
     return aboutString
 
