@@ -1,9 +1,24 @@
-# StickyBoard Inporter Edition Cli
+# StickyBoard Digestor Edition
 # 面向KDE的命令行版本
 # 将文本文件导入剪切板
+import sys
 
-def messageShow():
-    print("这是个饼，敬请期待")
+def Arg():
+    try:
+        input = sys.argv[1]
+    except IndexError:
+        print("未指定文件")
+        sys.exit()
+
+    if input == '-h':
+        print(aboutPage())
+    else:
+        try:
+            fileOperation(input)
+        except FileNotFoundError:
+            print("文件不存在")
+        except UnicodeDecodeError:
+            print("此文件的格式不受支持")
 
 def infoShow():
 
@@ -21,13 +36,16 @@ def infoShow():
     global isBeta
     global isCanary
     global version 
+    global edition
+
     projectName = "信手 StickyBoard"
     version = 'v1.2'
+    edition = 'cli'
     isBeta = False
     isCanary = True
     author = 'ShoreNinth'
 
-    info = projectName + " " + version + " by " + author
+    info = projectName + " " + edition + " " + version
 
     if isBeta == True:
         info += " Beta"
@@ -35,16 +53,20 @@ def infoShow():
         info += " Canary"
 
     print(info)
+    print("使用-h参数查看版本")
 
-def fileOperation():
+def fileOperation(file):
     """文件操作"""
     # 选择文件
-    fileSelected = tkinter.filedialog.askopenfilename(title = "选择文件")
+    fileSelected = file
     with open(fileSelected, 'r', encoding= "utf-8") as f:
         element = f.readlines()
     # 移除空行
     element = [i.strip() for i in element if i.strip()]
+    for i in element:
 
+        pass
+        # print(i)
 
 def aboutPage():
     """关于页面"""
@@ -66,5 +88,5 @@ def aboutPage():
 
 if __name__ == "__main__":
     infoShow()
-    messageShow()
+    Arg()
     
