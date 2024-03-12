@@ -87,7 +87,7 @@ def windowShow():
         else:
             window.wm_attributes("-topmost", True)
 
-    def instandCopy(self):
+    def instantCopy(self):
         """复制选中内容"""
         # Bard的建议。当没选中东西时不复制内容。可能有用？
         if not container.curselection():
@@ -99,7 +99,7 @@ def windowShow():
         window.clipboard_append(item)
         window.update()
 
-    container.bind("<ButtonRelease-1>",instandCopy)
+    container.bind("<ButtonRelease-1>",instantCopy)
 
     def aboutPage():
         """关于页面"""
