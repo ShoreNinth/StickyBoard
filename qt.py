@@ -9,7 +9,7 @@ class metaInfo():
 
     projectName = "信手 StickyBoard"
     version = 'v1.3'
-    isCanary = True
+    isCanary = False
     isBeta = True
     author = 'ShoreNinth'
     filetype_error_dialog = '错误: 不受支持的文件格式'
@@ -48,9 +48,9 @@ class MessageBox():
     def aboutMessageBox():
         QtWidgets.QMessageBox.information(None,'关于',str(metaInfo.aboutString))
 
-class Ui_MainWindow(QtWidgets.QTextBrowser):
+class Ui_MainWindow(object):
 
-    statusbar = '就绪'
+    statusbarText = '就绪'
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -60,7 +60,6 @@ class Ui_MainWindow(QtWidgets.QTextBrowser):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
-        MainWindow.setAcceptDrops(True)
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -73,6 +72,10 @@ class Ui_MainWindow(QtWidgets.QTextBrowser):
         self.scrollArea.setObjectName("scrollArea")
 
         self.listWidget = MyListWidget()
+
+        global listwidget
+        listwidget=self.listWidget
+
         self.listWidget.itemClicked.connect(self.listWidget.clicked)
         self.scrollArea.setWidget(self.listWidget)
 
@@ -93,7 +96,7 @@ class Ui_MainWindow(QtWidgets.QTextBrowser):
 
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
-        self.statusbar.showMessage(Ui_MainWindow.statusbar)
+        self.statusbar.showMessage(Ui_MainWindow.statusbarText)
 
         MainWindow.setStatusBar(self.statusbar)
 
@@ -129,23 +132,23 @@ class Ui_MainWindow(QtWidgets.QTextBrowser):
         self.action.setText(_translate("MainWindow", "文件"))
         self.action_2.setText(_translate("MainWindow", "关于"))
 
+class Window(QtWidgets.QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.setAcceptDrops(True)
+
     def dragEnterEvent(self, event):
-        print("sss")
         if event.mimeData().hasUrls():
             event.acceptProposedAction()
-            self.statusbar.showMessage('拖放文件以打开')
+            # self.statusbar.showMessage('拖放文件以打开')
 
     def dropEvent(self, event):
-        print("sss")
         for url in event.mimeData().urls():
             file_path = url.toLocalFile()
-            if file_path.endswith('.txt'):  # 确保文件是文本文件
-                with open(file_path, 'r', encoding='utf-8') as file:
-                    self.setText(file.read())
-                    self.statusbar.showMessage('成功打开文件：' + file_path)
-                    return
-        self.statusbar.showMessage('拖放的文件不是文本文件或不受支持')
-
+            fileOperation.fileOpen(file_path)
+        # self.statusbar.showMessage('拖放的文件不是文本文件或不受支持')
+    
 
 class fileOperation():
     def fileSelection():
@@ -158,7 +161,7 @@ class fileOperation():
     def fileIsEmpty(file):
         """文件操作"""
 
-        Ui_MainWindow.statusbar = '正在打开' + file
+        Ui_MainWindow.statusbarText = '正在打开' + file
 
         if file == '':
             pass
@@ -171,20 +174,17 @@ class fileOperation():
             with open(file, 'r', encoding= "utf-8") as f:
                 element = f.readlines()
             element = [i.strip() for i in element if i.strip()]
-            # 插入列表
-            ui.listWidget.clear
-            for item in element:
-                ui.listWidget.addItem(item)
 
-            Ui_MainWindow.statusbar = '成功打开' + file
+            for item in element:
+                listwidget.addItem(item)
+
+            Ui_MainWindow.statusbarText = '成功打开' + file
         # 如果目标文件不可读取，则弹窗报错
         except UnicodeDecodeError:
             MessageBox.filetypeError(None)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
+    window = Window()
+    window.show()
     sys.exit(app.exec_())
