@@ -8,9 +8,9 @@ import sys
 class metaInfo():
 
     projectName = "信手 StickyBoard"
-    version = 'v1.2'
+    version = 'v1.3'
+    isCanary = True
     isBeta = True
-    isCanary = False
     author = 'ShoreNinth'
     filetype_error_dialog = '错误: 不受支持的文件格式'
 
@@ -33,10 +33,10 @@ class metaInfo():
 
 class MyListWidget(QtWidgets.QListWidget):
     def clicked(self,item):
-        Clipboard.instandCopy(item.text())
+        Clipboard.instantCopy(item.text())
 
 class Clipboard():
-    def instandCopy(self):
+    def instantCopy(self):
         """复制选中内容"""
         cb = QtWidgets.QApplication.clipboard()
         cb.setText(self)
@@ -48,7 +48,7 @@ class MessageBox():
     def aboutMessageBox():
         QtWidgets.QMessageBox.information(None,'关于',str(metaInfo.aboutString))
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QtWidgets.QTextBrowser):
 
     statusbar = '就绪'
 
@@ -60,6 +60,7 @@ class Ui_MainWindow(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
+        MainWindow.setAcceptDrops(True)
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -98,10 +99,12 @@ class Ui_MainWindow(object):
 
         self.action = QtWidgets.QAction(MainWindow)
         self.action.setObjectName("action")
-        self.action.triggered.connect(Ui_MainWindow.fileOperation)
+        self.action.setShortcut("CTRL+O")
+        self.action.triggered.connect(fileOperation.fileSelection)
 
         self.action_2 = QtWidgets.QAction(MainWindow)
         self.action_2.setObjectName("action_2")
+        self.action_2.setShortcut("CTRL+H")
         self.action_2.triggered.connect(MessageBox.aboutMessageBox)
 
         self.menu.addAction(self.action)
@@ -126,33 +129,57 @@ class Ui_MainWindow(object):
         self.action.setText(_translate("MainWindow", "文件"))
         self.action_2.setText(_translate("MainWindow", "关于"))
 
+    def dragEnterEvent(self, event):
+        print("sss")
+        if event.mimeData().hasUrls():
+            event.acceptProposedAction()
+            self.statusbar.showMessage('拖放文件以打开')
 
-    def fileOperation():
-        """文件操作"""
+    def dropEvent(self, event):
+        print("sss")
+        for url in event.mimeData().urls():
+            file_path = url.toLocalFile()
+            if file_path.endswith('.txt'):  # 确保文件是文本文件
+                with open(file_path, 'r', encoding='utf-8') as file:
+                    self.setText(file.read())
+                    self.statusbar.showMessage('成功打开文件：' + file_path)
+                    return
+        self.statusbar.showMessage('拖放的文件不是文本文件或不受支持')
+
+
+class fileOperation():
+    def fileSelection():
+        """文件选择"""
 
         fileSelected = QtWidgets.QFileDialog.getOpenFileName()
         fileSelected = fileSelected[0]
+        fileOperation.fileIsEmpty(fileSelected)
 
-        Ui_MainWindow.statusbar = '正在打开' + fileSelected
+    def fileIsEmpty(file):
+        """文件操作"""
 
-        if fileSelected == '':
+        Ui_MainWindow.statusbar = '正在打开' + file
+
+        if file == '':
             pass
         else:
-            element=""
-            try:
-                with open(fileSelected, 'r', encoding= "utf-8") as f:
-                    element = f.readlines()
-                element = [i.strip() for i in element if i.strip()]
-                # 插入列表
-                ui.listWidget.clear
-                for item in element:
-                    ui.listWidget.addItem(item)
+            fileOperation.fileOpen(file)
 
-                Ui_MainWindow.statusbar = '成功打开' + fileSelected
+    def fileOpen(file):
+        element=""
+        try:
+            with open(file, 'r', encoding= "utf-8") as f:
+                element = f.readlines()
+            element = [i.strip() for i in element if i.strip()]
+            # 插入列表
+            ui.listWidget.clear
+            for item in element:
+                ui.listWidget.addItem(item)
+
+            Ui_MainWindow.statusbar = '成功打开' + file
         # 如果目标文件不可读取，则弹窗报错
-            except UnicodeDecodeError:
-               MessageBox.filetypeError(None)
-
+        except UnicodeDecodeError:
+            MessageBox.filetypeError(None)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
