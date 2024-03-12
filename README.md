@@ -30,11 +30,15 @@ StickyBoard（信手）是一个文本复制工具。
 |🧑‍💻|正在进行|
 |🎉|已完成|
 
-## 🧑‍💻StickyBoard Qt
+## 🧑‍💻[StickyBoard Qt](./qt.py)
 
 使用PyQt5编写的前端。敬请期待！
 
-## 🎉StickyBoard for Windows
+## 🎉[StickyBoard (Legacy) for Windows](./main.py)
+
+StickyBoard第一版，使用Tkinter构建。
+
+从**2024年3月12日**起，Tkinter版将**不再**维护。请拥抱更先进的框架。
 
 选择任意文本文件（支持代码文件，编码为UTF-8），此应用会按行分割文本。
 
@@ -44,11 +48,11 @@ StickyBoard（信手）是一个文本复制工具。
 
 ## 💤StickyBoard for Linux
 
-## 💤StickyBoard for Gnome
+## 💤[StickyBoard for Gnome](./Gnome.py)
 
 使用GTK构建，让你有更舒适的Gnome桌面应用使用体验。
 
-## 💤StickyBoard CLI for KDE plasma
+## 💤[StickyBoard CLI for KDE plasma](./cli.py)
 
 众所周知KDE plasma的桌面自带剪切板。除了不能拖动外，其他功能可以与StickyBoard相辅相成。为此我准备了一个命令行版本。它可以读取目标文本文件，并逐行复制，与KDE剪切板联动。
 

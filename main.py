@@ -1,3 +1,4 @@
+# StickyBoard Legacy
 # StickyBoard for Windows
 import ctypes
 import tkinter as tk
