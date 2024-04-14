@@ -66,6 +66,7 @@ def fileOperation(file):
     element = [i.strip() for i in element if i.strip()]
     for i in element:
         pyperclip.copy(i)
+        print("已复制："+i)
 
 def aboutPage():
     """关于页面"""
