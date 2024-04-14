@@ -30,9 +30,9 @@ StickyBoard（信手）是一个文本复制工具。
 |🧑‍💻|正在进行|
 |🎉|已完成|
 
-## 🧑‍💻[StickyBoard Qt](./qt.py)
+## 🎉[StickyBoard Qt](./qt.py)
 
-使用PyQt5编写的前端。敬请期待！
+使用PyQt5编写的前端。与旧版相比，加入了拖拽打开及快捷键的功能！
 
 ## 🎉[StickyBoard (Legacy) for Windows](./main.py)
 
