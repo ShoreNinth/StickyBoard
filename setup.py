@@ -1,7 +1,11 @@
 # StickyBoard Pyinstaller 打包助手
+# StickyBoard Pyinstaller BuildWizard
 import os
+import sys
 
 version = '1.1'
+
+Language=os.environ.get('LANGUAGE')
 
 print(
     "  ______         _         _             ______                            _ "+ "\n" +
@@ -21,8 +25,23 @@ print(
     "\____/  \__,_||_||_| \__,_|  \/  \/ |_|/___| \__,_||_|    \__,_|"+ "\n"
     )
 
-print("StickyBoard Pyinstaller 打包助手")
-print("版本："+version)
+class InfoText():
+    Title_zh_CN = "StickyBoard Pyinstaller 打包助手"
+    Version_zh_CN = "版本：" + version
+
+    Title_en_US="StickyBoard Pyinstaller BuildWizard"
+    Version_en_US="Version："+version
+
+    Option_zh_CN="1.为Windows构建\n"+"2.构建Linux GTK版\n"+"3.构建Linux Qt版\n"+"4.构建Windows Qt版\n"+"5.退出\n"
+    Option_en_US="1.Build for Windows\n"+"2.Build for Linux GTK\n"+"3.Build for Linux Qt\n"+"4.Build for Windows Qt\n"+"5.Exit\n"
+
+
+if Language == "zh_CN":
+    print(InfoText.Title_zh_CN)
+    print(InfoText.Version_zh_CN)
+else:
+    print(InfoText.Title_en_US)
+    print(InfoText.Version_en_US)
 
 windows_prefix = "pyinstaller -F -w -i icon.ico "
 
@@ -32,11 +51,12 @@ qt = "qt.py"
 buildForWindows = windows_prefix+main
 buildQtForWindows = windows_prefix+qt
 
-print("1.为Windows构建\n"+
-      "2.为Gnome Linux构建\n"
-      +"3.为KDE Linux构建\n"
-      +"4.构建Windows Qt版\n")
-promptList=[1,2,3,4]
+if Language == "zh_CN":
+    print(InfoText.Option_zh_CN)
+else:
+    print(InfoText.Option_en_US)
+
+promptList=[1,2,3,4,5]
 
 loopLock = 1
 
@@ -58,3 +78,5 @@ while(loopLock==1):
         pass
     elif prompt == 4:
         os.system(buildQtForWindows)
+    elif prompt == 5:
+        sys.exit()
