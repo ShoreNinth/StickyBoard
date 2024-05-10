@@ -23,16 +23,20 @@ StickyBoard（信手）是一个文本复制工具。
 
 ### 开发进度图例
 
-|图标|解释|
-|-|-|
-|🚧|未开始|
-|💤|闲置|
-|🧑‍💻|正在进行|
-|🎉|已完成|
+| 图标 |   解释   |
+| ---- | :------: |
+| 🚧    |  未开始  |
+| 💤    |   闲置   |
+| 🧑‍💻    | 正在进行 |
+| 🎉    |  已完成  |
 
-## 🎉[StickyBoard Qt](./qt.py)
+## 🎉[StickyBoard Qt5](./qt.py)
 
 使用PyQt5编写的前端。与旧版相比，加入了拖拽打开及快捷键的功能！
+
+## 🧑‍💻[StickyBoard Qt6](./qt6.py)
+
+为Qt6所准备的使用PyQt6编写的前端
 
 ## 🎉[StickyBoard (Legacy) for Windows](./main.py)
 
@@ -52,7 +56,7 @@ StickyBoard第一版，使用Tkinter构建。
 
 使用GTK构建，让你有更舒适的Gnome桌面应用使用体验。
 
-## 💤[StickyBoard CLI for KDE plasma](./cli.py)
+## 🧑‍💻[StickyBoard CLI for KDE plasma](./cli.py)
 
 众所周知KDE plasma的桌面自带剪切板。除了不能拖动外，其他功能可以与StickyBoard相辅相成。为此我准备了一个命令行版本。它可以读取目标文本文件，并逐行复制，与KDE剪切板联动。
 
@@ -105,10 +109,3 @@ sudo pip install -r requirements.txt
 
 此软件的图标是从网上随便找的，在正式确定图标前以此图标![图标](icon.ico "临时图标")为主。
 
-# 感谢
-
-Microsoft New Bing ~~必应大小姐~~
-
-Google Bard
-
-OpenAI ChatGPT
