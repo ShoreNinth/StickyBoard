@@ -109,3 +109,8 @@ sudo pip install -r requirements.txt
 
 此软件的图标是从网上随便找的，在正式确定图标前以此图标![图标](icon.ico "临时图标")为主。
 
+
+## Jetbrians
+
+本项目已获得 [Jetbrians](https://github.com/JetBrains) 开源开发认证，感谢 Jetbrains 对开源软件的赞助。
+
