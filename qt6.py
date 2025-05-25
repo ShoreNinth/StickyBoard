@@ -103,7 +103,7 @@ class Ui_MainWindow(object):
 
         self.action = QtGui.QAction(parent=MainWindow)
         self.action.setObjectName("action")
-        self.action.setShortcut(QtGui.QKeySequence.Open)
+        self.action.setShortcut(QtGui.QKeySequence.keyBindings(open))
         self.action.triggered.connect(FileOperation.fileSelection)
 
         self.action_2 = QtGui.QAction(parent=MainWindow)
